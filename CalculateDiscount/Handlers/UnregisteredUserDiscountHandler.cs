@@ -6,7 +6,7 @@ namespace CalculateDiscount.Handlers
     {
         public override void Handle(Basket basket)
         {
-            if (basket.User.Category == UserCategory.Unregistered)
+            if (!basket.User.IsRegistered)
             {
                 var sum = 0m;
                 foreach (var item in basket.ItemReceipts)

@@ -7,7 +7,7 @@ namespace CalculateDiscount.Handlers
     {
         public override void Handle(Basket basket)
         {
-            if (basket.User.Category == UserCategory.Registered)
+            if (basket.User.IsRegistered && basket.User.ShoppingCount > 0)
             {
                 AddDiscount(basket.ItemReceipts, 0.05m);
                 var sum = basket.ItemReceipts.Sum(i => i.Amount);

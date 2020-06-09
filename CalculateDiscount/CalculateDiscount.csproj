@@ -48,7 +48,6 @@
     <Compile Include="Model\Basket.cs" />
     <Compile Include="Model\Receipt.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="Model\UserCategory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

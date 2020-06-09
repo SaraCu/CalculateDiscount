@@ -8,7 +8,7 @@ namespace CalculateDiscount.Handlers
     {
         public override void Handle(Basket basket)
         {
-            if (basket.User.Category == UserCategory.New)
+            if (basket.User.IsRegistered && basket.User.ShoppingCount == 0)
             {
                 if (basket.ItemReceipts.Count() >= 3)
                 {

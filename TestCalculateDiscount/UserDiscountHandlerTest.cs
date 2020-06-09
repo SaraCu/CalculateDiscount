@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CalculateDiscount.Handlers;
 using CalculateDiscount.Model;
@@ -17,11 +16,14 @@ namespace TestCalculateDiscount
             var unregisteredUserDiscountHandler = new UnregisteredUserDiscountHandler();
             var newUserDiscountHandler = new NewUserDiscountHandler();
             var registeredUserDiscountHandler = new RegisteredUserDiscountHandler();
-            var goldenUserDiscountHandler = new GoldenUserDiscountHandler();
-            unregisteredUserDiscountHandler.SetNextHandler(newUserDiscountHandler);
-            newUserDiscountHandler.SetNextHandler(registeredUserDiscountHandler);
-            registeredUserDiscountHandler.SetNextHandler(goldenUserDiscountHandler);
-            handler = unregisteredUserDiscountHandler;
+            var goldenUserDiscountHandler = new GoldenUserDiscountHandler
+            {
+                GoldenThresholdAmount = 1000
+            };
+            goldenUserDiscountHandler.SetNextHandler(registeredUserDiscountHandler);
+            registeredUserDiscountHandler.SetNextHandler(newUserDiscountHandler);
+            newUserDiscountHandler.SetNextHandler(unregisteredUserDiscountHandler);
+            handler = goldenUserDiscountHandler;
         }
 
         [TestMethod]
@@ -32,7 +34,7 @@ namespace TestCalculateDiscount
                 User = new User
                 {
                     UserName = "name",
-                    Category = UserCategory.Unregistered,
+                    IsRegistered = false,
                 },
                 ItemReceipts = new List<Receipt>
                 {
@@ -75,7 +77,7 @@ namespace TestCalculateDiscount
                 User = new User
                 {
                     UserName = "name",
-                    Category = UserCategory.New,
+                    IsRegistered = true,
                 },
                 ItemReceipts = new List<Receipt>
                 {
@@ -122,7 +124,7 @@ namespace TestCalculateDiscount
                 User = new User
                 {
                     UserName = "name",
-                    Category = UserCategory.New,
+                    IsRegistered = true,
                 },
                 ItemReceipts = new List<Receipt>
                 {
@@ -157,7 +159,8 @@ namespace TestCalculateDiscount
                 User = new User
                 {
                     UserName = "name",
-                    Category = UserCategory.Registered,
+                    IsRegistered = true,
+                    ShoppingCount = 3,
                 },
                 ItemReceipts = new List<Receipt>
                 {
@@ -201,7 +204,9 @@ namespace TestCalculateDiscount
                 User = new User
                 {
                     UserName = "name",
-                    Category = UserCategory.Golden,
+                    IsRegistered = true,
+                    ShoppingCount = 8,
+                    TotalAmountSpent = 2334,
                 },
                 ItemReceipts = new List<Receipt>
                 {
@@ -248,7 +253,9 @@ namespace TestCalculateDiscount
                 User = new User
                 {
                     UserName = "name",
-                    Category = UserCategory.Golden,
+                    IsRegistered = true,
+                    ShoppingCount = 8,
+                    TotalAmountSpent = 2334,
                 },
                 ItemReceipts = new List<Receipt>
                 {
@@ -295,7 +302,9 @@ namespace TestCalculateDiscount
                 User = new User
                 {
                     UserName = "name",
-                    Category = UserCategory.Golden,
+                    IsRegistered = true,
+                    ShoppingCount = 8,
+                    TotalAmountSpent = 2334,
                 },
                 ItemReceipts = new List<Receipt>
                 {

@@ -6,9 +6,11 @@ namespace CalculateDiscount.Handlers
 {
     public class GoldenUserDiscountHandler : DiscountHandler
     {
+        public decimal GoldenThresholdAmount { get; set; }
+
         public override void Handle(Basket basket)
         {
-            if (basket.User.Category == UserCategory.Golden)
+            if (basket.User.IsRegistered && basket.User.ShoppingCount > 0 && basket.User.TotalAmountSpent > GoldenThresholdAmount)
             {
                 if (basket.ItemReceipts.Count() >= 3)
                 {
